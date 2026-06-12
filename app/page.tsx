@@ -1,6 +1,5 @@
 'use client';
 import PerfumeCard from './components/PerfumeCard';
-// Importamos la constante con los datos desde su nuevo archivo
 import { perfumesArcangeles } from './constants/perfumes';
 
 export default function Home() {
@@ -9,8 +8,9 @@ export default function Home() {
       
       {/* SECCIÓN HERO */}
       <section className="flex flex-col items-center justify-center text-center px-6 py-20 bg-gradient-to-b from-emerald-50/50 to-transparent">
-        <h1 className="text-4xl md:text-6xl font-serif text-emerald-800 tracking-wide mb-4">
-          Naturaleza Divina
+        {/* Cambiado para no repetir el nombre de la marca que ya está arriba en el logo */}
+        <h1 className="text-3xl md:text-5xl font-serif text-emerald-800 tracking-wide mb-4 max-w-2xl leading-tight">
+          Cosmética Alquímica Artesanal
         </h1>
         <div className="w-16 h-0.5 bg-amber-400/60 mb-6"></div>
         <p className="text-lg md:text-xl italic text-stone-600 max-w-xl font-light leading-relaxed">
@@ -18,8 +18,8 @@ export default function Home() {
         </p>
       </section>
 
-      {/* SECCIÓN DE PRODUCTOS */}
-      <section className="max-w-6xl mx-auto px-6 py-12">
+      {/* SECCIÓN DE PRODUCTOS (Agregado id y scroll-mt para compensar el header fijo) */}
+      <section id="fragancias" className="max-w-6xl mx-auto px-6 py-12 scroll-mt-36">
         <h2 className="text-3xl font-serif text-center text-emerald-800 mb-2">
           Fragancias Sagradas
         </h2>

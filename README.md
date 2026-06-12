@@ -1,37 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌿 Naturaleza Divina - Landing Page
 
-## Getting Started
+¡Bienvenidos a **Naturaleza Divina**! Este proyecto es una Landing Page moderna y optimizada desarrollada para un emprendimiento local de perfumes alquímicos. El sitio combina una interfaz visual elegante y mística con un chatbot inteligente interactivo.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🚀 Características del Proyecto
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+* **Maquetación Moderna:** Interfaz fluida y responsive adaptada para dispositivos móviles y escritorio usando **Tailwind CSS**.
+* **Arquitectura Modular:** Separación limpia de componentes reutilizables y archivos de constantes independientes para facilitar la escalabilidad de los productos.
+* **Asistente Virtual Integrado:** Chatbot interactivo conectado de forma segura a la **API de Google Gemini (modelo 1.5 Flash)**.
+* **Enrutamiento Avanzado:** Implementación del sistema *App Router* de Next.js utilizando rutas optimizadas.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🛠️ Tecnologías Utilizadas
 
-## Learn More
+* **Frontend:** React, Next.js (App Router), TypeScript.
+* **Estilos:** Tailwind CSS.
+* **Backend & IA:** Node.js, API de Google Gemini (`@google/genai`).
+* **Despliegue (Hosting):** Vercel (Funciones Serverless con costo de infraestructura en cero).
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📂 Estructura del Proyecto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+El proyecto sigue las mejores prácticas de organización recomendadas por la documentación oficial de Next.js:
 
-## Deploy on Vercel
+* `app/page.tsx`: Pantalla principal y diseño visual de la Landing Page.
+* `app/layout.tsx`: Estructura global compartida (marco contenedor del sitio).
+* `app/components/`: Componentes modulares y reutilizables de React (como las tarjetas de los perfumes).
+* `app/constants/`: Archivos de configuración estática y datos del catálogo de productos.
+* `app/api/chat/route.ts`: Endpoint de backend seguro para procesar los mensajes del chat con la IA sin exponer credenciales.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-# naturaleza-divina
+## 💻 Instalación y Desarrollo Local
+
+Si querés clonar este repositorio y ejecutarlo en tu computadora, seguí estos pasos:
+
+1. **Clonar el repositorio:**
+   ```bash
+   git clone [https://github.com/Jazmin-Loureiro/naturaleza-divina.git](https://github.com/Jazmin-Loureiro/naturaleza-divina.git)
+   cd naturaleza-divina
