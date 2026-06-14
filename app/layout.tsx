@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Navbar from "./components/Navbar"; // Importamos el nuevo header dinámico
+import Navbar from "./components/Navbar";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,9 +28,9 @@ export default function RootLayout({
       lang="es"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full flex flex-col text-stone-800 bg-[#FFFDF6]">
+      <body className="min-h-full flex flex-col text-stone-800">
         
-        {/* NUEVO NAVBAR INTERACTIVO */}
+        {/* ENCABEZADO STICKY DOBLE */}
         <Navbar />
 
         {/* CONTENIDO PRINCIPAL */}
@@ -38,7 +38,7 @@ export default function RootLayout({
           {children}
         </main>
 
-        {/* PIE DE PÁGINA (FOOTER ORIGINAL) */}
+        {/* PIE DE PÁGINA (A tono con el color arena de contraste) */}
         <footer className="bg-[#FAF6ED] border-t border-stone-200/60 py-6 text-stone-500 text-xs tracking-wide">
           <div className="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             
