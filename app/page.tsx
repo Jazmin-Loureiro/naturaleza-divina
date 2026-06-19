@@ -1,5 +1,5 @@
 'use client';
-import PerfumeCard from './components/PerfumeCard';
+import PerfumeCarousel from './components/Carousel';
 import SectionWrapper from './components/SectionWrapper';
 import WhatsappBtn from './components/WhatsappBtn';
 import { perfumesArcangeles } from './constants/perfumes';
@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-transparent font-sans">
       
-      {/* 1. SECCIÓN HERO (Degradé celeste sutil a tono con la acuarela) */}
+      {/* 1. SECCIÓN HERO */}
       <section className="flex flex-col items-center justify-center text-center px-6 py-24 bg-gradient-to-b from-blue-50/40 to-transparent">
         <h1 className="text-3xl md:text-5xl font-serif text-[#0F2337] tracking-wide mb-4 max-w-2xl leading-tight">
           Cosmética Alquímica Artesanal
@@ -24,30 +24,20 @@ export default function Home() {
         <hr className="border-t border-stone-400/60" />
       </div>
 
-      {/* 2. SECCIÓN DE PRODUCTOS */}
-      <section id="fragancias" className="max-w-6xl mx-auto px-6 py-16 scroll-mt-36">
+      {/* 2. SECCIÓN DE PRODUCTOS (CARRUSEL NUEVO) */}
+      <section id="fragancias" className="w-full py-16 scroll-mt-36 overflow-hidden">
         <h2 className="text-3xl font-serif text-center text-[#0F2337] mb-2 tracking-wide">
           Fragancias Sagradas
         </h2>
-        <p className="text-center text-stone-500 font-light mb-12 text-sm md:text-base">
+        <p className="text-center text-stone-500 font-light mb-12 text-sm md:text-base px-6">
           Descubrí el perfume alquímico creado para sintonizar con la energía de cada Arcángel.
         </p>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {perfumesArcangeles.map((perfume) => (
-            <PerfumeCard 
-              key={perfume.id}
-              id={perfume.id}
-              nombre={perfume.nombre}
-              aroma={perfume.aroma}
-              descripcion={perfume.descripcion}
-              precio={perfume.precio}
-            />
-          ))}
-        </div>
+        {/* Inyectamos el carrusel pasándole la lista completa de constantes */}
+        <PerfumeCarousel perfumes={perfumesArcangeles} />
       </section>
 
-      {/* 3. SECCIÓN SOBRE NOSOTROS (Fondo celeste/violeta pastel sutil) */}
+      {/* 3. SECCIÓN SOBRE NOSOTROS */}
       <SectionWrapper id="nosotros" title="Nuestra Historia" idBackground={true}>
         <p className="mb-4">
           Naturaleza Divina nace del deseo de fusionar la sabiduría de la tierra con la vibración energética de los arcángeles. Cada fragancia se elabora de forma alquímica y artesanal, seleccionando aceites esenciales puros y elixires cargados de intención.
