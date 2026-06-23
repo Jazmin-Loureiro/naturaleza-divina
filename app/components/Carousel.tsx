@@ -14,11 +14,12 @@ export default function PerfumeCarousel({ perfumes }: PerfumeCarouselProps) {
     if (carouselRef.current) {
       const { scrollLeft, clientWidth } = carouselRef.current;
       
-      // Controlamos el avance: en escritorio se mueve el ancho justo de una tarjeta (un tercio del espacio)
       const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-      const offset = direction === 'left' 
-        ? -(isMobile ? clientWidth / 1.2 : clientWidth / 3) 
-        : (isMobile ? clientWidth / 1.2 : clientWidth / 3);
+      const isLarge = typeof window !== 'undefined' && window.innerWidth >= 1024;
+
+      // Si es pantalla grande divide por 4 (porque entran 4), si es tablet por 3, si es móvil por 1.2
+      const divisor = isMobile ? 1.2 : isLarge ? 4 : 3;
+      const offset = direction === 'left' ? -clientWidth / divisor : clientWidth / divisor;
 
       carouselRef.current.scrollTo({
         left: scrollLeft + offset,
@@ -28,8 +29,8 @@ export default function PerfumeCarousel({ perfumes }: PerfumeCarouselProps) {
   };
 
   return (
-    // CAMBIO CLAVE: Achicamos el bloque entero a max-w-4xl para que sea visiblemente más angosto en la pantalla
-    <div className="relative group max-w-4xl mx-auto px-10">
+    // Mantenemos el max-w-4xl para que las tarjetas tengan un excelente margen de apertura
+    <div className="relative group max-w-5xl mx-auto px-4 md:px-12">
       
       {/* Flecha Izquierda */}
       <button
@@ -45,14 +46,13 @@ export default function PerfumeCarousel({ perfumes }: PerfumeCarouselProps) {
       {/* Contenedor del Carrusel */}
       <div
         ref={carouselRef}
-        className="flex gap-5 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 scrollbar-hide"
+        className="flex gap-6 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-6 scrollbar-hide"
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {perfumes.map((perfume) => (
           <div 
             key={perfume.id} 
-            // Usamos porcentajes (w-full / md:w-[31%]) para que las tarjetas se adapten al tamaño angosto del contenedor padre
-            className="snap-center shrink-0 w-[85vw] sm:w-[45%] md:w-[31%]"
+            className="snap-center shrink-0 w-[75vw] sm:w-[45%] md:w-[25%] lg:w-[25%] h-full"
           >
             <PerfumeCard
               id={perfume.id}
@@ -60,6 +60,7 @@ export default function PerfumeCarousel({ perfumes }: PerfumeCarouselProps) {
               aroma={perfume.aroma}
               descripcion={perfume.descripcion}
               precio={perfume.precio}
+              imagen={perfume.imagen}
             />
           </div>
         ))}
