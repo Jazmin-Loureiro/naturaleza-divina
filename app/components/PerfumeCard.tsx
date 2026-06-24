@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
-import Modal from './Modal'; // <-- Importamos tu nuevo componente reutillizable
-
+import Modal from './Modal'; // <-- Impor
+import { GLOBAL_CONFIG } from '../constants/global';
 interface PerfumeProps {
   nombre: string;
   aroma: string;
@@ -91,10 +91,10 @@ export default function PerfumeCard({ nombre, aroma, descripcion, precio, id, im
               <span className="text-xl font-bold text-emerald-950">{precio}</span>
             </div>
             <a
-              href={`https://wa.me/tu_numero_aqui?text=Hola!%20Me%20interesa%20el%20${encodeURIComponent(nombre)}`}
+              href={`https://wa.me/${GLOBAL_CONFIG.whatsapp.number}?text=${encodeURIComponent(`¡Hola! Me interesa el ${nombre}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-5 py-2.5 rounded-lg font-medium transition-all hover:scale-105 shadow-sm text-center"
+              className="bg-emerald-700 text-white text-xs px-5 py-2.5 rounded-lg"
             >
               Pedir por WhatsApp
             </a>

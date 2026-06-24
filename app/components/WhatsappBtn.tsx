@@ -1,15 +1,17 @@
 'use client';
+import { GLOBAL_CONFIG } from '../constants/global';
 
 export default function WhatsappBtn() {
+  const { number, defaultMessage } = GLOBAL_CONFIG.whatsapp;
+
   return (
     <a
-      href="https://wa.me/tu-numero-aqui"
+      href={`https://wa.me/${number}?text=${encodeURIComponent(defaultMessage)}`}
       target="_blank"
       rel="noopener noreferrer"
       className="fixed bottom-6 left-6 z-50 flex items-center justify-center w-14 h-14 bg-[#25D366] hover:bg-[#20ba5a] text-white rounded-full shadow-xl transition-all duration-300 hover:scale-110 group"
       aria-label="Contactar por WhatsApp"
     >
-      {/* Nuevo SVG corregido y centrado: Usa paths estándar e independientes para el teléfono y la burbuja */}
       <svg 
         className="w-7 h-7 fill-current" 
         viewBox="0 0 448 512"

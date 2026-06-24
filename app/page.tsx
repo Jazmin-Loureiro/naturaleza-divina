@@ -3,6 +3,7 @@ import PerfumeCarousel from './components/Carousel';
 import SectionWrapper from './components/SectionWrapper';
 import WhatsappBtn from './components/WhatsappBtn';
 import { perfumesArcangeles } from './constants/perfumes';
+import GeminiChat from './components/GeminiChat';
 
 export default function Home() {
   return (
@@ -65,7 +66,7 @@ export default function Home() {
 
       {/* 5. BOTÓN FLOTANTE */}
       <WhatsappBtn />
-
+      <GeminiChat />   {/* Flota a la derecha */}
     </main>
   );
 }
