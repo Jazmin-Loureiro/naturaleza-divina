@@ -60,9 +60,12 @@ export default function GeminiChat() {
           className="w-14 h-14 bg-gradient-to-tr from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-full shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center border border-amber-400/30"
           aria-label="Abrir asistente virtual"
         >
-          {/* Icono de Chispas / IA mística */}
-          <svg className="w-7 h-7" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 21l-.813-5.096L3 15l5.187-.813L9 9l.813 5.187L15 15l-5.187.813zM18 10.5l-.563-2.437L15 7.5l2.437-.563L18 4.5l.563 2.437L21 7.5l-2.437.563L18 10.5z" />
+          {/* Nuevo SVG: Estrella Alquímica / Destello Místico */}
+          <svg 
+            className="w-7 h-7 fill-current" 
+            viewBox="0 0 24 24"
+          >
+            <path d="M12 2c.4 0 .7.3.9.7l2.2 5.1 5.1 2.2c.4.2.7.5.7.9s-.3.7-.7.9l-5.1 2.2-2.2 5.1c-.2.4-.5.7-.9.7s-.7-.3-.9-.7l-2.2-5.1-5.1-2.2c-.4-.2-.7-.5-.7-.9s.3-.7.7-.9l5.1-2.2 2.2-5.1c.2-.4.5-.7.9-.7zM12 5.2L10.4 9 6.6 10.6l3.8 1.6 1.6 3.8 1.6-3.8 3.8-1.6-3.8-1.6L12 5.2z"/>
           </svg>
         </button>
       )}
