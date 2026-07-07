@@ -18,14 +18,6 @@ export const perfumesArcangeles: Perfume[] = [
     imagen: '/perfumes/miguel.jpeg', // <-- Cambiá esto por el nombre real de tu archivo
   },
   {
-    id: 'rafael',
-    nombre: 'Perfume Alquímico Arcángel Rafael',
-    aroma: 'Sanación y Armonía (Notas de Menta y Pino)',
-    descripcion: 'Ideal para momentos donde buscás sanación física, mental o emocional, promoviendo un estado de paz.',
-    precio: '$12.000',
-    imagen: '',
-  },
-  {
     id: 'gabriel',
     nombre: 'Perfume Alquímico Arcángel Gabriel',
     aroma: 'Guía y Comunicación (Notas de Jazmín y Azahar)',
@@ -68,9 +60,17 @@ export const perfumesArcangeles: Perfume[] = [
   {
     id: 'angel-guarda',
     nombre: 'Perfume Alquímico Angél de la Guarda',
-    aroma: 'Paz y serenidad',
+    aroma: 'Paz y serenidad (Notas de Tilo)',
     descripcion: 'Te conecta con la intuición, la claridad mental y la capacidad de expresar tus verdades con amor.',
     precio: '$12.000',
     imagen: '/perfumes/angel-guarda.jpeg',
+  },
+  {
+    id: 'rafael',
+    nombre: 'Perfume Alquímico Arcángel Rafael',
+    aroma: 'Sanación y Armonía (Notas de Menta y Pino)',
+    descripcion: 'Ideal para momentos donde buscás sanación física, mental o emocional, promoviendo un estado de paz.',
+    precio: '$12.000',
+    imagen: '/perfumes/rafael.jpeg',
   },
 ];

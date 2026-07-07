@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 
 interface ModalProps {
   isOpen: boolean;
@@ -7,8 +8,25 @@ interface ModalProps {
 }
 
 export default function Modal({ isOpen, onClose, children }: ModalProps) {
+  
+  // 1. El Hook va PRIMERO. React lo lee siempre, asegurando la estabilidad.
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+
+    // Al cerrarse o desmontarse, limpia el estilo para devolver el scroll
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
+  // 2. La condición de salida va DESPUÉS. Si no está abierto, frena el HTML aquí.
   if (!isOpen) return null;
 
+  // 3. El renderizado del HTML final
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-stone-900/60 backdrop-blur-sm p-4">
       {/* Caja del Modal */}

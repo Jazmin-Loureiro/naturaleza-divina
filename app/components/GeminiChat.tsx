@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { useMagnetico } from '../hooks/useMagnetico'; // 
 
 interface Message {
   sender: 'user' | 'bot';
@@ -15,10 +16,28 @@ export default function GeminiChat() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll hacia el último mensaje recibido
+  // 🌟 LLAMAMOS AL HOOK ACÁ. Arranca a la derecha (bottom-6 right-6)
+  const { posicion, estaArrastrando, aplicarTransicion, arrastrandoRef, iniciarArrastre } = useMagnetico('derecha');
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isOpen]);
+
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
+
+  const manejarClickBoton = () => {
+    if (arrastrandoRef.current) return;
+    setIsOpen(true);
+  };
 
   const handleSend = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,15 +49,12 @@ export default function GeminiChat() {
     setLoading(true);
 
     try {
-      // Llamamos a nuestra API Route interna que creamos en app/api/chat/route.ts
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage }),
       });
-
       const data = await response.json();
-
       if (data.reply) {
         setMessages((prev) => [...prev, { sender: 'bot', text: data.reply }]);
       } else {
@@ -52,19 +68,24 @@ export default function GeminiChat() {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50 font-sans">
-      {/* BOTÓN / BURBUJA FLOTANTE */}
+    <div className="fixed inset-0 pointer-events-none z-50 font-sans">
+      
+      {/* BOTÓN / BURBUJA FLOTANTE MAGNÉTICA REAL */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
-          className="w-14 h-14 bg-gradient-to-tr from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-full shadow-xl transition-all duration-300 hover:scale-110 flex items-center justify-center border border-amber-400/30"
+          onMouseDown={iniciarArrastre}
+          onTouchStart={iniciarArrastre}
+          onClick={manejarClickBoton}
+          className={`w-14 h-14 bg-gradient-to-tr from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white rounded-full shadow-xl flex items-center justify-center border border-amber-400/30 fixed bottom-6 right-6 pointer-events-auto touch-none select-none active:scale-95 ${
+            aplicarTransicion ? 'transition-transform duration-300 ease-out' : ''
+          }`}
+          style={{
+            transform: `translate(${posicion.x}px, ${posicion.y}px)`,
+            cursor: estaArrastrando ? 'grabbing' : 'grab'
+          }}
           aria-label="Abrir asistente virtual"
         >
-          {/* Nuevo SVG: Estrella Alquímica / Destello Místico */}
-          <svg 
-            className="w-7 h-7 fill-current" 
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-7 h-7 fill-current" viewBox="0 0 24 24">
             <path d="M12 2c.4 0 .7.3.9.7l2.2 5.1 5.1 2.2c.4.2.7.5.7.9s-.3.7-.7.9l-5.1 2.2-2.2 5.1c-.2.4-.5.7-.9.7s-.7-.3-.9-.7l-2.2-5.1-5.1-2.2c-.4-.2-.7-.5-.7-.9s.3-.7.7-.9l5.1-2.2 2.2-5.1c.2-.4.5-.7.9-.7zM12 5.2L10.4 9 6.6 10.6l3.8 1.6 1.6 3.8 1.6-3.8 3.8-1.6-3.8-1.6L12 5.2z"/>
           </svg>
         </button>
@@ -72,9 +93,7 @@ export default function GeminiChat() {
 
       {/* VENTANA DEL CHAT */}
       {isOpen && (
-        <div className="bg-[#FFFDF6] border border-stone-200/80 w-[85vw] sm:w-96 h-[450px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
-          
-          {/* Encabezado */}
+        <div className="fixed bottom-6 right-6 pointer-events-auto bg-[#FFFDF6] border border-stone-200/80 w-[85vw] sm:w-96 h-[450px] rounded-2xl shadow-2xl flex flex-col overflow-hidden animate-fadeIn">
           <div className="bg-gradient-to-r from-emerald-800 to-emerald-950 p-4 flex items-center justify-between text-white border-b border-stone-200/20">
             <div className="flex items-center gap-2">
               <div className="w-2.5 h-2.5 bg-amber-400 rounded-full animate-pulse"></div>
@@ -83,28 +102,13 @@ export default function GeminiChat() {
                 <p className="text-[10px] text-stone-300 font-light">Conexión alquímica con IA</p>
               </div>
             </div>
-            <button 
-              onClick={() => setIsOpen(false)}
-              className="text-stone-300 hover:text-white transition-colors text-sm font-semibold px-2"
-            >
-              ✕
-            </button>
+            <button onClick={() => setIsOpen(false)} className="text-stone-300 hover:text-white transition-colors text-sm font-semibold px-2">✕</button>
           </div>
 
-          {/* Área de Mensajes */}
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-stone-50/50">
             {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed shadow-sm ${
-                    msg.sender === 'user'
-                      ? 'bg-emerald-700 text-white rounded-tr-none'
-                      : 'bg-white text-stone-800 border border-stone-200/60 rounded-tl-none'
-                  }`}
-                >
+              <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-emerald-700 text-white rounded-tr-none' : 'bg-white text-stone-800 border border-stone-200/60 rounded-tl-none'}`}>
                   {msg.text}
                 </div>
               </div>
@@ -121,7 +125,6 @@ export default function GeminiChat() {
             <div ref={chatEndRef} />
           </div>
 
-          {/* Formulario de Entrada */}
           <form onSubmit={handleSend} className="p-3 bg-white border-t border-stone-100 flex gap-2 items-center">
             <input
               type="text"
@@ -131,17 +134,12 @@ export default function GeminiChat() {
               className="flex-1 bg-stone-50 border border-stone-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-emerald-700 text-stone-800"
               disabled={loading}
             />
-            <button
-              type="submit"
-              disabled={loading || !input.trim()}
-              className="bg-emerald-700 text-white p-2 rounded-xl hover:bg-emerald-800 transition-colors disabled:bg-stone-200 disabled:text-stone-400"
-            >
+            <button type="submit" disabled={loading || !input.trim()} className="bg-emerald-700 text-white p-2 rounded-xl hover:bg-emerald-800 transition-colors disabled:bg-stone-200 disabled:text-stone-400">
               <svg className="w-4 h-4 transform rotate-90" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
               </svg>
             </button>
           </form>
-
         </div>
       )}
     </div>

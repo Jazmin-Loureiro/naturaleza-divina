@@ -6,7 +6,7 @@ export const GLOBAL_CONFIG = {
     defaultMessage: "¡Hola! Me gustaría hacer una consulta sobre los perfumes alquímicos.",
   },
   contact: {
-    email: "contacto@naturalezadina.com",
+    email: "sil.f.yensen.com",
     instagram: "", 
   },
   local: {
