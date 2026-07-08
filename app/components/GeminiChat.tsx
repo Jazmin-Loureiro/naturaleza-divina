@@ -45,19 +45,24 @@ export default function GeminiChat() {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages((prev) => [...prev, { sender: 'user', text: userMessage }]);
+    
+    // 1. Guardamos el mensaje actual del usuario en el estado
+    const nuevosMensajes: Message[] = [...messages, { sender: 'user', text: userMessage }];
+    setMessages(nuevosMensajes);
     setLoading(true);
 
     try {
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ message: userMessage }),
+        body: JSON.stringify({ 
+          // 2. ENVIAMOS TODO EL HISTORIAL DE LA CONVERSACIÓN AL BACKEND
+          history: nuevosMensajes 
+        }),
       });
       
       const data = await response.json();
       
-      // Controlamos de forma segura que la respuesta exista y no venga vacía
       if (data && data.reply) {
         setMessages((prev) => [...prev, { sender: 'bot', text: data.reply.trim() }]);
       } else {

@@ -35,29 +35,34 @@ const SYSTEM_INSTRUCTION = `
 
 export async function POST(req: Request) {
   try {
-    const { message } = await req.json();
+    const { history } = await req.json();
 
-    if (!message || typeof message !== 'string' || !message.trim()) {
-      return NextResponse.json({ error: 'El mensaje está vacío o es inválido.' }, { status: 400 });
+    if (!history || !Array.isArray(history) || history.length === 0) {
+      return NextResponse.json({ error: 'El historial de chat es inválido.' }, { status: 400 });
     }
 
-    // Llamamos al modelo estable de Gemini
+    // 1. Convertimos el historial del frontend al formato oficial que exige Gemini
+    // El rol del bot en el SDK de Google se llama 'model'
+    const contents = history.map((msg) => ({
+      role: msg.sender === 'user' ? 'user' : 'model',
+      parts: [{ text: msg.text }]
+    }));
+
+    // 2. Llamamos al modelo pasándole el bloque completo de la conversación
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
-      contents: message.trim(),
+      contents: contents, // 👈 ¡Ahora procesa todo el hilo de corrido!
       config: {
         systemInstruction: SYSTEM_INSTRUCTION,
-        temperature: 0.6, // Bajamos levemente la temperatura para mayor precisión en las instrucciones fijas
+        temperature: 0.6,
       }
     });
 
-    // Validamos de forma estricta el texto devuelto por el backend de Google
     const botTextReply = response.text;
 
     if (botTextReply) {
       return NextResponse.json({ reply: botTextReply });
     } else {
-      // Fallback humanizado si la respuesta viene vacía del servidor externo
       return NextResponse.json({ reply: "¡Hola! Siento que la energía del canal se dispersó un momento. ¿Me podrías volver a repetir tu consulta sobre nuestras fragancias?" });
     }
 
