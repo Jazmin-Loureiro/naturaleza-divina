@@ -1,7 +1,8 @@
 'use client';
 import { useState } from 'react';
-import Modal from './Modal'; // <-- Impor
+import Modal from './Modal';
 import { GLOBAL_CONFIG } from '../constants/global';
+
 interface PerfumeProps {
   nombre: string;
   aroma: string;
@@ -53,24 +54,24 @@ export default function PerfumeCard({ nombre, aroma, descripcion, precio, id, im
         </div>
       </div>
 
-      {/* MODAL REUTILIZABLE */}
+      {/* MODAL REUTILIZABLE CORREGIDO PARA CELULARES */}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        {/* Mitad Izquierda: Foto Completa */}
-        <div className="w-full md:w-1/2 h-64 md:h-auto bg-stone-100 relative min-h-[300px]">
+        {/* Mitad Izquierda: Cambiamos bg-stone-100 por bg-[#FFFDF6] para unificar el fondo */}
+        <div className="w-full md:w-1/2 h-64 md:h-auto bg-[#FFFDF6] flex items-center justify-center p-6 md:p-8 min-h-[280px] md:min-h-[400px]">
           <img 
             src={imagen} 
             alt={nombre} 
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-contain max-h-[35vh] md:max-h-[420px]"
           />
         </div>
 
-        {/* Mitad Derecha: Toda la Información Limpia */}
-        <div className="w-full md:w-1/2 p-6 flex flex-col justify-between">
+        {/* Mitad Derecha: Información limpia con padding unificado */}
+        <div className="w-full md:w-1/2 p-6 flex flex-col justify-between bg-[#FFFDF6]">
           <div>
             <span className="text-[10px] font-bold text-amber-600 uppercase tracking-widest block mb-1">
               Perfumería Alquímica
             </span>
-            <h2 className="text-xl md:text-2xl font-serif text-emerald-950 mb-3 leading-tight">
+            <h2 className="text-xl md:text-2xl font-serif text-emerald-950 mb-3 leading-tight pr-6">
               {nombre}
             </h2>
             <div className="w-12 h-0.5 bg-amber-400/60 mb-4"></div>
@@ -94,7 +95,7 @@ export default function PerfumeCard({ nombre, aroma, descripcion, precio, id, im
               href={`https://wa.me/${GLOBAL_CONFIG.whatsapp.number}?text=${encodeURIComponent(`¡Hola! Me interesa el ${nombre}`)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-emerald-700 text-white text-xs px-5 py-2.5 rounded-lg"
+              className="bg-emerald-700 hover:bg-emerald-800 text-white text-xs px-5 py-2.5 rounded-lg transition-colors font-medium text-center shadow-sm"
             >
               Pedir por WhatsApp
             </a>

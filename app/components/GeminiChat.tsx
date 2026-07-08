@@ -1,6 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
-import { useMagnetico } from '../hooks/useMagnetico'; // 
+import { useMagnetico } from '../hooks/useMagnetico';
 
 interface Message {
   sender: 'user' | 'bot';
@@ -16,7 +16,7 @@ export default function GeminiChat() {
   const [loading, setLoading] = useState(false);
   const chatEndRef = useRef<HTMLDivElement>(null);
 
-  // 🌟 LLAMAMOS AL HOOK ACÁ. Arranca a la derecha (bottom-6 right-6)
+  // Arrastre magnético a la derecha
   const { posicion, estaArrastrando, aplicarTransicion, arrastrandoRef, iniciarArrastre } = useMagnetico('derecha');
 
   useEffect(() => {
@@ -54,14 +54,17 @@ export default function GeminiChat() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage }),
       });
+      
       const data = await response.json();
-      if (data.reply) {
-        setMessages((prev) => [...prev, { sender: 'bot', text: data.reply }]);
+      
+      // Controlamos de forma segura que la respuesta exista y no venga vacía
+      if (data && data.reply) {
+        setMessages((prev) => [...prev, { sender: 'bot', text: data.reply.trim() }]);
       } else {
-        setMessages((prev) => [...prev, { sender: 'bot', text: 'Disculpame, tuve un problema al procesar tu consulta.' }]);
+        setMessages((prev) => [...prev, { sender: 'bot', text: 'Ay, disculpame. Sentí una pequeña desconexión en la red. ¿Me podrías volver a repetir tu consulta de forma amorosa?' }]);
       }
     } catch (error) {
-      setMessages((prev) => [...prev, { sender: 'bot', text: 'No me pude conectar con el servidor. Intentá de nuevo más tarde.' }]);
+      setMessages((prev) => [...prev, { sender: 'bot', text: 'En este momento no me puedo conectar con el servidor místico. Por favor, intentá de nuevo en unos instantes.' }]);
     } finally {
       setLoading(false);
     }
@@ -108,7 +111,8 @@ export default function GeminiChat() {
           <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-stone-50/50">
             {messages.map((msg, index) => (
               <div key={index} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed shadow-sm ${msg.sender === 'user' ? 'bg-emerald-700 text-white rounded-tr-none' : 'bg-white text-stone-800 border border-stone-200/60 rounded-tl-none'}`}>
+                {/* 🌟 SUMAMOS 'whitespace-pre-line' PARA RESPONSABILIZAR LOS SALTOS DE LÍNEA AL RECORRER ÍTEMS */}
+                <div className={`max-w-[80%] rounded-2xl px-3.5 py-2 text-xs leading-relaxed shadow-sm whitespace-pre-line ${msg.sender === 'user' ? 'bg-emerald-700 text-white rounded-tr-none' : 'bg-white text-stone-800 border border-stone-200/60 rounded-tl-none'}`}>
                   {msg.text}
                 </div>
               </div>
